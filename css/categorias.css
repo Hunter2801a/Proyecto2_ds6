@@ -477,17 +477,6 @@ body::before {
 .close-modal:hover {
     color: var(--danger-color);
 }
-.img-preview-modal,
-#edit-cat-preview {
-    display: block;
-    margin: 16px auto 0 auto;
-    border-radius: 8px;
-    border: 2px solid #fff;
-    background: #111;
-    box-shadow: 0 2px 8px rgba(0, 212, 255, 0.10);
-    max-width: 60px;
-    max-height: 60px;
-}
 
 /* Responsive */
 @media (max-width: 768px) {

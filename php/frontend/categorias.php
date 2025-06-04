@@ -67,9 +67,9 @@ $categorias = $conn->query("SELECT * FROM categorias");
 <link rel="stylesheet" href="../../css/categorias.css">
 
 <div class="categorias-container">
-<div class="back-nav">
-    <a href="pag_adm.php" class="back-button">⟵ Volver</a>
-</div>
+    <div class="back-nav">
+        <a href="pag_adm.php" class="back-button">⟵ Volver</a>
+    </div>
     <h2 class="page-title">Categorías</h2>
     <form method="POST" enctype="multipart/form-data" class="form-categoria" id="form-categoria">
         <div class="form-group">
@@ -95,19 +95,19 @@ $categorias = $conn->query("SELECT * FROM categorias");
                         <img src="../../<?= htmlspecialchars($cat['imagen']) ?>" alt="<?= htmlspecialchars($cat['nombre']) ?>">
                     <?php endif; ?>
                 </div>
-
                 <div class="category-info">
                     <span class="category-name"><?= htmlspecialchars($cat['nombre']) ?></span>
                 </div>
-
                 <div class="category-actions">
                     <a href="#" class="btn btn-warning btn-small" title="Editar"
-   onclick="abrirModalEditarCategoria(
-     <?= $cat['id'] ?>,
-     '<?= htmlspecialchars(addslashes($cat['nombre'])) ?>',
-     '<?= htmlspecialchars($cat['imagen']) ?>'
-   ); return false;">&#9998;</a>
-                    <a href="?eliminar=<?= $cat['id'] ?>" class="btn btn-danger btn-small" onclick="return confirm('¿Estás seguro de eliminar esta categoría?')" title="Eliminar">&#128465;</a>
+                        onclick="abrirModalEditarCategoria(
+                            <?= $cat['id'] ?>,
+                            '<?= htmlspecialchars(addslashes($cat['nombre'])) ?>',
+                            '<?= htmlspecialchars($cat['imagen']) ?>'
+                        ); return false;">&#9998;</a>
+                    <a href="#" class="btn btn-danger btn-small"
+                        onclick="mostrarModalEliminar(<?= $cat['id'] ?>, '<?= htmlspecialchars(addslashes($cat['nombre'])) ?>'); return false;"
+                        title="Eliminar">&#128465;</a>
                 </div>
             </li>
         <?php endwhile; ?>
@@ -138,6 +138,19 @@ $categorias = $conn->query("SELECT * FROM categorias");
   </div>
 </div>
 
+<!-- Modal de confirmación -->
+<div id="modalConfirmarEliminar" class="modal" style="display:none;">
+  <div class="modal-content" style="max-width:340px;">
+    <span class="close-modal" onclick="cerrarModalEliminar()">&times;</span>
+    <h3 id="modal-eliminar-titulo" style="color:var(--danger-color);margin-bottom:12px;">Confirmar eliminación</h3>
+    <p id="modal-eliminar-mensaje">¿Estás seguro de eliminar este elemento?</p>
+    <div class="form-actions" style="margin-top:18px;display:flex;gap:12px;justify-content:center;">
+      <button class="btn btn-danger" id="btnConfirmarEliminar">Eliminar</button>
+      <button class="btn btn-cancelar" type="button" onclick="cerrarModalEliminar()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
 <script>
 function cancelarOperacion() 
 {
@@ -160,6 +173,10 @@ function abrirModalEditarCategoria(id, nombre, imagen) {
 
 function cerrarModalEditarCategoria() {
     document.getElementById('modalEditarCategoria').style.display = 'none';
+}
+
+function cerrarModalEliminar() {
+    document.getElementById('modalConfirmarEliminar').style.display = 'none';
 }
 
 // Enviar el formulario por AJAX
@@ -186,4 +203,26 @@ document.getElementById('edit-cat-imagen').addEventListener('change', function(e
         document.getElementById('edit-cat-preview').src = URL.createObjectURL(file);
     }
 });
+
+// Confirmar eliminación de categoría
+document.querySelectorAll('.btn-danger').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const id = this.closest('.category-card').querySelector('.category-info').dataset.id;
+        const nombre = this.closest('.category-card').querySelector('.category-name').innerText;
+        document.getElementById('modal-eliminar-mensaje').innerText = '¿Estás seguro de eliminar la categoría "' + nombre + '"?';
+        document.getElementById('btnConfirmarEliminar').onclick = function() {
+            window.location.href = '?eliminar=' + id;
+        }
+        document.getElementById('modalConfirmarEliminar').style.display = 'flex';
+    });
+});
+
+function mostrarModalEliminar(id, nombre) {
+    document.getElementById('modal-eliminar-mensaje').innerText = '¿Estás seguro de eliminar la categoría "' + nombre + '"?';
+    document.getElementById('btnConfirmarEliminar').onclick = function() {
+        window.location.href = '?eliminar=' + id;
+    }
+    document.getElementById('modalConfirmarEliminar').style.display = 'flex';
+}
 </script>

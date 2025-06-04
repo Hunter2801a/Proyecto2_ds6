@@ -316,6 +316,7 @@ html {
     max-width: 95vw;
     box-shadow: 0 8px 32px rgba(0,0,0,0.25);
     position: relative;
+    color: var(--text-primary);
 }
 .close-modal {
     position: absolute;
@@ -323,6 +324,10 @@ html {
     font-size: 2rem;
     color: #fff;
     cursor: pointer;
+    transition: color 0.2s;
+}
+.close-modal:hover {
+    color: var(--danger-color);
 }
 
 /* Responsive */

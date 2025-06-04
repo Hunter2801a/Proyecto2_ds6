@@ -131,7 +131,7 @@ if (isset($_GET['eliminar'])) {
                 <div class="product-actions">
                     <a href="#" class="btn btn-warning btn-small" title="Editar"
                        onclick="abrirModalEditar(<?= $prod['id'] ?>); return false;">&#9998;</a>
-                    <a href="?eliminar=<?= $prod['id'] ?>" class="btn btn-danger btn-small" onclick="return confirm('¿Estás seguro de eliminar este producto?')" title="Eliminar">&#128465;</a>
+                    <a href="#" class="btn btn-danger btn-small" onclick="confirmarEliminar(<?= $prod['id'] ?>, '<?= htmlspecialchars(addslashes($prod['nombre'])) ?>'); return false;" title="Eliminar">&#128465;</a>
                 </div>
             </li>
         <?php endwhile; ?>
@@ -170,6 +170,19 @@ if (isset($_GET['eliminar'])) {
   </div>
 </div>
 
+<!-- Modal de confirmación -->
+<div id="modalConfirmarEliminar" class="modal" style="display:none;">
+  <div class="modal-content" style="max-width:340px;">
+    <span class="close-modal" onclick="cerrarModalEliminar()">&times;</span>
+    <h3 id="modal-eliminar-titulo" style="color:var(--danger-color);margin-bottom:12px;">Confirmar eliminación</h3>
+    <p id="modal-eliminar-mensaje">¿Estás seguro de eliminar este elemento?</p>
+    <div class="form-actions" style="margin-top:18px;display:flex;gap:12px;justify-content:center;">
+      <button class="btn btn-danger" id="btnConfirmarEliminar">Eliminar</button>
+      <button class="btn btn-cancelar" type="button" onclick="cerrarModalEliminar()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
 <script>
 function abrirModalEditar(id) {
     fetch('../../php/backend/obtener_producto.php?id=' + id)
@@ -203,5 +216,21 @@ document.getElementById('formEditarProducto').onsubmit = function(e) {
             alert('Error al editar el producto');
         }
     });
+};
+
+// Confirmar eliminación de producto
+let idProductoEliminar;
+function confirmarEliminar(id, nombre) {
+    idProductoEliminar = id;
+    document.getElementById('modal-eliminar-mensaje').innerText = '¿Estás seguro de eliminar el producto "' + nombre + '"?';
+    document.getElementById('modalConfirmarEliminar').style.display = 'flex';
+}
+function cerrarModalEliminar() {
+    document.getElementById('modalConfirmarEliminar').style.display = 'none';
+}
+document.getElementById('btnConfirmarEliminar').onclick = function() {
+    if (idProductoEliminar) {
+        window.location.href = '?eliminar=' + idProductoEliminar;
+    }
 };
 </script>
