@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nombre'])) {
 
 // Obtener productos
 $productos = $conn->query("
-    SELECT p.id, p.nombre, p.imagen, c.nombre AS categoria 
+    SELECT p.id, p.nombre, p.imagen, c.nombre AS categoria, p.categoria_id 
     FROM productos p
     JOIN categorias c ON p.categoria_id = c.id
 ");
@@ -115,10 +115,23 @@ if (isset($_GET['eliminar'])) {
         </div>
     </form>
 
+    <div class="categoria-select-container">
+        <select id="categoriaFiltro" class="form-input">
+            <option value="" selected>Mostrar todas las categorías</option>
+            <?php
+            // Vuelve a consultar las categorías porque el primer while ya las consumió
+            $categorias2 = $conn->query("SELECT id, nombre FROM categorias");
+            while ($cat = $categorias2->fetch_assoc()):
+            ?>
+                <option value="<?= $cat['id'] ?>"><?= htmlspecialchars($cat['nombre']) ?></option>
+            <?php endwhile; ?>
+        </select>
+    </div>
+
     <h3 id="listado-productos" class="section-title">Listado de productos</h3>
-    <ul class="productos-list">
+    <ul class="productos-list" id="productosList">
         <?php while ($prod = $productos->fetch_assoc()): ?>
-            <li class="producto-card">
+            <li class="producto-card" data-categoria-id="<?= $prod['categoria_id'] ?>">
                 <div class="producto-img">
                     <?php if (!empty($prod['imagen'])): ?>
                         <img src="../../<?= htmlspecialchars($prod['imagen']) ?>" alt="<?= htmlspecialchars($prod['nombre']) ?>" class="producto-img-thumb">
@@ -233,4 +246,16 @@ document.getElementById('btnConfirmarEliminar').onclick = function() {
         window.location.href = '?eliminar=' + idProductoEliminar;
     }
 };
+
+// Filtro por categoría
+document.getElementById('categoriaFiltro').addEventListener('change', function() {
+    const catId = this.value;
+    document.querySelectorAll('.producto-card').forEach(card => {
+        if (!catId || card.getAttribute('data-categoria-id') === catId) {
+            card.style.display = '';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+});
 </script>

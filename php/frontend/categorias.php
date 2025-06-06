@@ -81,7 +81,7 @@ $categorias = $conn->query("SELECT * FROM categorias");
             <input type="file" name="imagen" class="form-input" accept="image/*">
         </div>
         <div class="form-actions">
-            <button type="submit" class="btn btn-primary" onclick="return confirmarAgregar()">Agregar Categoría</button>
+            <button type="button" class="btn btn-primary" onclick="abrirModalAgregarCategoria()">Agregar Categoría</button>
             <button type="button" class="btn btn-cancelar" onclick="cancelarOperacion()">Cancelar</button>
         </div>
     </form>
@@ -151,6 +151,19 @@ $categorias = $conn->query("SELECT * FROM categorias");
   </div>
 </div>
 
+<!-- Modal de confirmación para agregar -->
+<div id="modalConfirmarAgregar" class="modal" style="display:none;">
+  <div class="modal-content" style="max-width:340px;">
+    <span class="close-modal" onclick="cerrarModalAgregarCategoria()">&times;</span>
+    <h3 style="color:var(--primary-color);margin-bottom:12px;">Confirmar agregar</h3>
+    <p>¿Estás seguro de agregar esta categoría?</p>
+    <div class="form-actions" style="margin-top:18px;display:flex;gap:12px;justify-content:center;">
+      <button class="btn btn-primary" id="btnConfirmarAgregar">Agregar</button>
+      <button class="btn btn-cancelar" type="button" onclick="cerrarModalAgregarCategoria()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
 <script>
 function cancelarOperacion() 
 {
@@ -177,6 +190,10 @@ function cerrarModalEditarCategoria() {
 
 function cerrarModalEliminar() {
     document.getElementById('modalConfirmarEliminar').style.display = 'none';
+}
+
+function cerrarModalAgregarCategoria() {
+    document.getElementById('modalConfirmarAgregar').style.display = 'none';
 }
 
 // Enviar el formulario por AJAX
@@ -225,4 +242,36 @@ function mostrarModalEliminar(id, nombre) {
     }
     document.getElementById('modalConfirmarEliminar').style.display = 'flex';
 }
+
+// Agregar categoría - Confirmar
+document.getElementById('btnConfirmarAgregar').addEventListener('click', function() {
+    const form = document.getElementById('form-categoria');
+    const formData = new FormData(form);
+    fetch('../../php/backend/agregar_categoria.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        } else {
+            alert('Error al agregar la categoría');
+        }
+    })
+    .catch(error => console.error('Error:', error));
+});
+
+function abrirModalAgregarCategoria() {
+    document.getElementById('modalConfirmarAgregar').style.display = 'flex';
+}
+
+function cerrarModalAgregarCategoria() {
+    document.getElementById('modalConfirmarAgregar').style.display = 'none';
+}
+
+// Al confirmar, envía el formulario real
+document.getElementById('btnConfirmarAgregar').onclick = function() {
+    document.getElementById('form-categoria').submit();
+};
 </script>
