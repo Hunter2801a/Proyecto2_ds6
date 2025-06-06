@@ -86,7 +86,7 @@ if (isset($_GET['eliminar'])) {
         <div class="form-group">
             <label class="form-label">Categoría:</label>
             <select name="categoria_id" class="form-input" required>
-                <option value="">Seleccione una categoría</option>
+                <option value="" disabled selected>Seleccione una categoría</option>
                 <?php while ($cat = $categorias->fetch_assoc()): ?>
                     <option value="<?= $cat['id'] ?>"><?= htmlspecialchars($cat['nombre']) ?></option>
                 <?php endwhile; ?>

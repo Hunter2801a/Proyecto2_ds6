@@ -33,7 +33,7 @@ $categorias = $conn->query("SELECT * FROM categorias");
         <h3>Categorías registradas</h3>
         <div class="categoria-select-container">
             <select id="categoriaSelect" class="form-input">
-                <option value="">Seleccione una categoría</option>
+                <option value="" disabled selected>Seleccione una categoría</option>
                 <?php foreach ($categorias as $cat): ?>
                     <option 
                         value="<?= $cat['id'] ?>" 
