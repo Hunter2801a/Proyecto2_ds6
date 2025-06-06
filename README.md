@@ -1,8 +1,8 @@
 # Proyecto2_ds6
 
-**Pseudo página web para la venta de productos electrónicos**
+**Simulación de tienda en línea para productos electrónicos**
 
-Este proyecto es una simulación de una tienda en línea desarrollada con PHP, CSS y una base de datos MySQL. Permite visualizar productos electrónicos con una interfaz simple y funcional.
+Este proyecto es una simulación de una tienda en línea desarrollada con PHP, CSS y una base de datos MySQL. Permite visualizar y gestionar productos electrónicos con una interfaz simple y funcional.  
 Ideal como base para prácticas académicas o personales en desarrollo web con back-end básico.
 
 ---
@@ -26,13 +26,28 @@ Antes de ejecutar el proyecto, asegúrate de contar con:
 
 ---
 
+## 🚀 Instalación y uso
+
+1. Clona o descarga este repositorio en tu servidor local.
+2. Importa el archivo `tablas.sql` en tu base de datos MySQL.
+3. Configura los datos de conexión en `php/backend/conexion.php` según tu entorno.
+4. Inicia Apache y MySQL desde tu panel (por ejemplo, XAMPP).
+5. Accede a la aplicación desde tu navegador:  
+   `http://localhost/Proy2DS6/php/frontend/categorias.php`  
+   o  
+   `http://localhost/Proy2DS6/php/frontend/productos.php`
+
+---
+
 ## 🧑‍💻 Contribuciones
+
 Este proyecto es académico, pero estás invitado a:
 
 - Reportar bugs o sugerencias.
 - Hacer forks para extender funcionalidades.
 - Usarlo como base para otros proyectos.
-  
+
 ---
-Disfruta y contacta para cualquier informacion :)
+
+Disfruta y contáctame para cualquier información o sugerencia. 😊
 
