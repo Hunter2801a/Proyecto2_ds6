@@ -1,0 +1,196 @@
+:root {
+    --primary-color: #0066ff;
+    --secondary-color: #00d4ff;
+    --dark-bg: #0a0a0a;
+    --card-bg: #1a1a1a;
+    --text-primary: #ffffff;
+    --text-secondary: #b0b0b0;
+    --accent-glow: #00d4ff;
+    --success-color: #2ed573;
+    --danger-color: #ff4757;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, var(--dark-bg) 0%, #1a1a2e 50%, #16213e 100%);
+    min-height: 100vh;
+    color: var(--text-primary);
+    padding: 0;
+    margin: 0;
+}
+
+.header-landing {
+    background: rgba(26, 26, 26, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 40px;
+    border-bottom: 2px solid var(--accent-glow);
+    box-shadow: 0 2px 16px 0 rgba(0, 212, 255, 0.08);
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.logo-epsilon {
+    width: 48px;
+    height: 48px;
+    margin-right: 16px;
+}
+
+.empresa-nombre {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--text-primary);
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.header-links a {
+    color: var(--text-primary);
+    text-decoration: none;
+    margin-left: 32px;
+    font-weight: 500;
+    font-size: 1.1rem;
+    padding: 8px 18px;
+    border-radius: 6px;
+    transition: background 0.8s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s ease;
+}
+
+.header-links a:hover {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: #fff;
+}
+
+.main-landing {
+    max-width: 1200px;
+    margin: 40px auto 0 auto;
+    background: rgba(26, 26, 26, 0.95);
+    border-radius: 18px;
+    padding: 40px 30px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+    border: 1px solid rgba(0, 212, 255, 0.15);
+}
+
+.frase-empresa {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.frase-empresa h2 {
+    font-size: 2.2rem;
+    color: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.frase-empresa .frase {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin-top: 10px;
+}
+
+.categoria-section {
+    margin-bottom: 38px;
+}
+
+.categoria-titulo {
+    font-size: 1.4rem;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.categoria-img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid var(--primary-color);
+    box-shadow: 0 2px 8px rgba(0,212,255,0.10);
+}
+
+.productos-list-landing {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 22px;
+    margin-top: 10px;
+}
+
+.producto-card-landing {
+    background: rgba(26, 26, 26, 0.95);
+    border: 2px solid var(--primary-color);
+    border-radius: 14px;
+    padding: 18px 18px 12px 18px;
+    min-width: 0;
+    max-width: 100%;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    box-shadow: 0 4px 24px rgba(0,212,255,0.06);
+    transition: box-shadow 0.3s, border-color 0.3s;
+}
+
+.producto-img-landing {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 2px solid #fff;
+    background: #111;
+}
+
+.producto-info-landing {
+    flex: 1;
+}
+
+.producto-info-landing strong {
+    color: var(--primary-color);
+    font-size: 1.08rem;
+}
+
+.producto-info-landing p {
+    margin: 4px 0 8px 0;
+    color: var(--text-secondary);
+    font-size: 0.98rem;
+}
+
+.producto-precio {
+    color: var(--success-color);
+    font-weight: bold;
+    font-size: 1.08rem;
+}
+
+.empty-state {
+    color: var(--danger-color);
+    font-size: 1.1rem;
+    margin: 18px 0;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .main-landing {
+        padding: 20px 5px;
+    }
+    .productos-list-landing {
+        grid-template-columns: 1fr;
+    }
+    .header-landing {
+        flex-direction: column;
+        padding: 12px 10px;
+    }
+    .header-links { margin-top: 10px; }
+}

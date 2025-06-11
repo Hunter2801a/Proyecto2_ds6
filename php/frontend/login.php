@@ -72,5 +72,6 @@ if (isset($_SESSION['usuario'])) {
         }
         ?>
     </div>
+    <a href="logout.php" class="logout-link">Cerrar sesión</a>
 </body>
 </html>
