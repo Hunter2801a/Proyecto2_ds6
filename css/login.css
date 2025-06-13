@@ -276,3 +276,16 @@ body::before {
         font-size: 24px;
     }
 }
+
+.logout-link {
+    display: block;
+    text-align: center;
+    margin-top: 18px;
+    color: var(--primary-color);
+    text-decoration: underline;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+.logout-link:hover {
+    color: var(--secondary-color);
+}

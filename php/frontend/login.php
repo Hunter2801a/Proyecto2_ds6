@@ -71,7 +71,8 @@ if (isset($_SESSION['usuario'])) {
             echo '<div class="error-message">' . $error . '</div>';
         }
         ?>
+        <a href="logout.php" class="logout-link">Regresar como invitado</a>
     </div>
-    <a href="logout.php" class="logout-link">Cerrar sesión</a>
+    
 </body>
 </html>

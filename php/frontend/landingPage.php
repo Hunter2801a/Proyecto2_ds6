@@ -13,13 +13,13 @@
             <span class="empresa-nombre">Tecno Y</span>
         </div>
         <nav class="header-links">
-            <a href="login.php" class="login-link">Iniciar sesión</a>
+            <a href="login.php" class="login-link">Iniciar sesión como administrador</a>
         </nav>
     </header>
     <main class="main-landing">
         <section class="frase-empresa">
-            <h2>¡Bienvenido a Tecno Y!</h2>
-            <p class="frase">Tu pequeño centro de tecnologia en la Chorrera.</p>
+            <h2>Bienvenido, nuestro productos están a tu dispocisión</h2>
+            <p class="frase">Tu pequeño centro tecnologico en la Chorrera</p>
         </section>
         <div id="categorias-con-productos"></div>
     </main>
