@@ -33,9 +33,9 @@ Antes de ejecutar el proyecto, asegúrate de contar con:
 3. Configura los datos de conexión en `php/backend/conexion.php` según tu entorno.
 4. Inicia Apache y MySQL desde tu panel (por ejemplo, XAMPP).
 5. Accede a la aplicación desde tu navegador:  
-   `http://localhost/Proy2DS6/php/frontend/categorias.php`  
+   `http://localhost/Proy2DS6/php/frontend/landingPage.php`  
    o  
-   `http://localhost/Proy2DS6/php/frontend/productos.php`
+   `http://localhost/Proy2DS6/php/frontend/login.php`
 
 ---
 
