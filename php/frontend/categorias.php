@@ -221,19 +221,6 @@ document.getElementById('edit-cat-imagen').addEventListener('change', function(e
     }
 });
 
-// Confirmar eliminación de categoría
-document.querySelectorAll('.btn-danger').forEach(btn => {
-    btn.addEventListener('click', function(e) {
-        e.preventDefault();
-        const id = this.closest('.category-card').querySelector('.category-info').dataset.id;
-        const nombre = this.closest('.category-card').querySelector('.category-name').innerText;
-        document.getElementById('modal-eliminar-mensaje').innerText = '¿Estás seguro de eliminar la categoría "' + nombre + '"?';
-        document.getElementById('btnConfirmarEliminar').onclick = function() {
-            window.location.href = '?eliminar=' + id;
-        }
-        document.getElementById('modalConfirmarEliminar').style.display = 'flex';
-    });
-});
 
 function mostrarModalEliminar(id, nombre) {
     document.getElementById('modal-eliminar-mensaje').innerText = '¿Estás seguro de eliminar la categoría "' + nombre + '"?';
