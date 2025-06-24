@@ -28,6 +28,18 @@
         </div>
         <div id="categorias-con-productos"></div>
     </main>
+    
+    <!-- Modal de producto -->
+    <div id="modalProducto" class="modal-producto" style="display:none;">
+        <div class="modal-producto-content">
+            <span class="modal-close" onclick="cerrarModalProducto()">&times;</span>
+            <img id="modal-img" src="" alt="" class="modal-producto-img">
+            <h3 id="modal-nombre" class="modal-producto-nombre"></h3>
+            <p id="modal-descripcion" class="modal-producto-descripcion"></p>
+            <div id="modal-precio" class="modal-producto-precio"></div>
+        </div>
+    </div>
+
     <script>
 let categoriasData = [];
 let productosData = [];
@@ -96,15 +108,12 @@ function renderProductos(filtroCatId = "") {
                 ${cat.nombre}
             </h3>
             <div class="productos-list-landing">
-        `;
-        cat.productos.forEach(prod => {
+        `;        cat.productos.forEach(prod => {
             catHtml += `
-            <div class="producto-card-landing">
+            <div class="producto-card-landing" onclick="mostrarDetalleProducto(${prod.id})">
                 ${prod.imagen ? `<img src="../../${prod.imagen}" alt="${prod.nombre}" class="producto-img-landing">` : ''}
                 <div class="producto-info-landing">
                     <strong>${prod.nombre}</strong>
-                    <p>${prod.descripcion}</p>
-                    <span class="producto-precio">$${parseFloat(prod.precio).toFixed(2)}</span>
                 </div>
             </div>
             `;
@@ -113,6 +122,43 @@ function renderProductos(filtroCatId = "") {
         cont.innerHTML += catHtml;
     });
 }
+
+function mostrarDetalleProducto(prodId) {
+    console.log('Intentando mostrar producto con ID:', prodId);
+    console.log('Array de productos:', productosData);
+    
+    const prod = productosData.find(p => p.id == prodId);
+    if (!prod) {
+        console.log('Producto no encontrado con ID:', prodId);
+        return;
+    }
+    
+    console.log('Producto encontrado:', prod);
+    
+    document.getElementById('modal-img').src = `../../${prod.imagen}`;
+    document.getElementById('modal-nombre').textContent = prod.nombre;
+    document.getElementById('modal-descripcion').textContent = prod.descripcion;
+    document.getElementById('modal-precio').textContent = `$${parseFloat(prod.precio).toFixed(2)}`;
+    document.getElementById('modalProducto').style.display = 'flex';
+}
+
+function cerrarModalProducto() {
+    document.getElementById('modalProducto').style.display = 'none';
+}
+
+// Cerrar modal al hacer clic fuera del contenido
+document.addEventListener('click', function(e) {
+    if (e.target.id === 'modalProducto') {
+        cerrarModalProducto();
+    }
+});
+
+// Cerrar modal con ESC
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        cerrarModalProducto();
+    }
+});
 </script>
 </body>
 </html>
