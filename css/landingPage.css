@@ -331,6 +331,27 @@ select.form-input option {
     text-shadow: 0 2px 8px rgba(46, 213, 115, 0.3);
 }
 
+/* Footer */
+.footer-landing {
+    background: rgba(26, 26, 26, 0.95);
+    border-top: 2px solid var(--accent-glow);
+    padding: 20px 40px;
+    margin-top: 40px;
+    text-align: center;
+    box-shadow: 0 -2px 16px 0 rgba(0, 212, 255, 0.08);
+}
+
+.footer-content p {
+    margin: 4px 0;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.footer-content p:first-child {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
 @media (max-width: 768px) {
     .main-landing {
         padding: 20px 5px;

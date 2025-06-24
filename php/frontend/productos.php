@@ -73,7 +73,15 @@ if (isset($_GET['eliminar'])) {
 }
 ?>
 
-<link rel="stylesheet" href="../../css/productos.css">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Productos</title>
+    <link rel="stylesheet" href="../../css/productos.css">
+</head>
+<body>
+    <main class="productos-main">
 
 <div class="productos-container">
     <div class="back-nav">
@@ -259,3 +267,8 @@ document.getElementById('categoriaFiltro').addEventListener('change', function()
     });
 });
 </script>
+
+    </main>
+
+</body>
+</html>

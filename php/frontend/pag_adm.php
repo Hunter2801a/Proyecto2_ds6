@@ -26,9 +26,9 @@ $categorias = $conn->query("SELECT * FROM categorias");
             <a href="productos.php"> + Productos</a>
             <a href="categorias.php">+ Categorías</a>
             <a href="logout.php" class="logout-link">Cerrar sesión</a>
-        </nav>
-    </header>
-    <div class="main-content">
+        </nav>    </header>
+    <main class="admin-main">
+        <div class="main-content">
         <h2>Bienvenido, <?php echo $_SESSION['usuario']; ?> (Administrador)</h2>
         <h3>Categorías registradas</h3>
         <div class="categoria-select-container">
@@ -44,9 +44,9 @@ $categorias = $conn->query("SELECT * FROM categorias");
                 <?php endforeach; ?>
             </select>
             <div id="categoriaPreview" class="categoria-preview"></div>
+        </div>        <div id="productosCards" class="productos-cards"></div>
         </div>
-        <div id="productosCards" class="productos-cards"></div>
-    </div>
+    </main>
     <script>
 const categoriaSelect = document.getElementById('categoriaSelect');
 const categoriaPreview = document.getElementById('categoriaPreview');
@@ -82,5 +82,14 @@ categoriaSelect.addEventListener('change', function() {
         });
 });
 </script>
+
+<!-- Footer -->
+<footer class="footer-admin">
+    <div class="footer-content">
+        <p>&copy; 2025 Tecno Y - Página hecha con fines educativos</p>
+        <p>Todos los derechos reservados | Proyecto Desarrollo de Software VI</p>
+    </div>
+</footer>
+
 </body>
 </html>

@@ -64,7 +64,15 @@ if (isset($_GET['eliminar'])) {
 $categorias = $conn->query("SELECT * FROM categorias");
 ?>
 
-<link rel="stylesheet" href="../../css/categorias.css">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Categorías</title>
+    <link rel="stylesheet" href="../../css/categorias.css">
+</head>
+<body>
+    <main class="categorias-main">
 
 <div class="categorias-container">
     <div class="back-nav">
@@ -248,7 +256,6 @@ document.getElementById('btnConfirmarAgregar').addEventListener('click', functio
     })
     .catch(error => console.error('Error:', error));
 });
-
 function abrirModalAgregarCategoria() {
     document.getElementById('modalConfirmarAgregar').style.display = 'flex';
 }
@@ -262,3 +269,8 @@ document.getElementById('btnConfirmarAgregar').onclick = function() {
     document.getElementById('form-categoria').submit();
 };
 </script>
+
+    </main>
+
+</body>
+</html>

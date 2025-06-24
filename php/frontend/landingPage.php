@@ -19,7 +19,7 @@
     <main class="main-landing">
         <section class="frase-empresa">
             <h2>Bienvenido, nuestro productos están a tu disposición</h2>
-            <p class="frase">Tu pequeño centro tecnologico en la Chorrera</p>
+            <p class="frase">Tu pequeño centro tecnológico en La Chorrera</p>
         </section>
         <div class="categoria-select-container">
             <select id="categoriaSelectLanding" class="form-input">
@@ -28,6 +28,14 @@
         </div>
         <div id="categorias-con-productos"></div>
     </main>
+    
+    <!-- Footer -->
+    <footer class="footer-landing">
+        <div class="footer-content">
+            <p>&copy; 2025 Tecno Y - Página hecha con fines educativos</p>
+            <p>Todos los derechos reservados | Proyecto Desarrollo de Software VI</p>
+        </div>
+    </footer>
     
     <!-- Modal de producto -->
     <div id="modalProducto" class="modal-producto" style="display:none;">

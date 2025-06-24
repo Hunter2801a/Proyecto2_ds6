@@ -21,11 +21,20 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, var(--dark-bg) 0%, #1a1a2e 50%, #16213e 100%);
     min-height: 100vh;
+    color: var(--text-primary);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Contenedor principal para centrar el login */
+.login-main {
+    flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--text-primary);
-    overflow: hidden;
+    padding: 40px 20px;
 }
 
 /* Fondo animado */
@@ -63,7 +72,6 @@ body::before {
     position: relative;
     z-index: 1;
     overflow: hidden;
-    margin: 40px auto;
 }
 
 .login-container::before {
@@ -288,4 +296,25 @@ body::before {
 }
 .logout-link:hover {
     color: var(--secondary-color);
+}
+
+/* Footer */
+.footer-login {
+    background: rgba(26, 26, 26, 0.95);
+    border-top: 2px solid var(--accent-glow);
+    padding: 20px 40px;
+    margin-top: 40px;
+    text-align: center;
+    box-shadow: 0 -2px 16px 0 rgba(0, 212, 255, 0.08);
+}
+
+.footer-content p {
+    margin: 4px 0;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.footer-content p:first-child {
+    color: var(--primary-color);
+    font-weight: 600;
 }

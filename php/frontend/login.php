@@ -21,7 +21,8 @@ if (isset($_SESSION['usuario'])) {
     <link rel="stylesheet" href="../../css/login.css">
 </head>
 <body>
-    <div class="login-container">
+    <main class="login-main">
+        <div class="login-container">
         <div class="login-header">
             <img src="../../image/logo2.png" alt="Logo Epsilon" style="width:80px;display:block;margin:0 auto 10px auto;">
             <h1 class="login-title">Tecno Y</h1>
@@ -68,11 +69,17 @@ if (isset($_SESSION['usuario'])) {
         <?php
         // Mensaje de error si lo hay
         if (isset($error)) {
-            echo '<div class="error-message">' . $error . '</div>';
-        }
-        ?>
-        <a href="logout.php" class="logout-link">Regresar como invitado</a>
-    </div>
+            echo '<div class="error-message">' . $error . '</div>';        }        ?>        <a href="landingPage.php" class="logout-link">Regresar como invitado</a>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="footer-login">
+        <div class="footer-content">
+            <p>© 2024 TechStore - Tecnología de Vanguardia</p>
+            <p>Proyecto educativo - DS6 | Universidad Tecnológica de Panamá</p>
+        </div>
+    </footer>
     
 </body>
 </html>
