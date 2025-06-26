@@ -67,6 +67,30 @@ body {
     color: #fff;
 }
 
+.carrito-link {
+    position: relative;
+    background: rgba(0, 212, 255, 0.1) !important;
+    border: 1px solid var(--secondary-color) !important;
+}
+
+.carrito-link:hover {
+    background: linear-gradient(135deg, var(--secondary-color), var(--primary-color)) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 212, 255, 0.3);
+}
+
+.login-link {
+    position: relative;
+    background: rgba(0, 102, 255, 0.1) !important;
+    border: 1px solid var(--primary-color) !important;
+}
+
+.login-link:hover {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 102, 255, 0.3);
+}
+
 .main-landing {
     max-width: 1200px;
     margin: 40px auto 0 auto;

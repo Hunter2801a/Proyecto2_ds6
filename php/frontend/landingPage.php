@@ -11,9 +11,9 @@
         <div class="header-left">
             <img src="../../image/logo2.png" alt="Logo Epsilon" class="logo-epsilon">
             <span class="empresa-nombre">Tecno Y</span>
-        </div>
-        <nav class="header-links">
-            <a href="login.php" class="login-link">Iniciar sesión</a>
+        </div>        <nav class="header-links">
+            <a href="carrito.php" class="carrito-link">🛒 Tu Carrito</a>
+            <a href="login.php" class="login-link">👤 Iniciar sesión</a>
         </nav>
     </header>
     <main class="main-landing">
