@@ -1,4 +1,4 @@
-# Proyecto2_ds6
+# TecnoY pagina web
 
 **Simulación de tienda en línea para productos electrónicos**
 
