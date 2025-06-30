@@ -15,6 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nombre'])) {
     $descripcion = $_POST['descripcion'];
     $precio = $_POST['precio'];
     $categoria_id = $_POST['categoria_id'];
+    $stock = $_POST['stock'];
     $imagen = null;
 
     // Procesar imagen si se subió
@@ -31,8 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nombre'])) {
         }
     }
 
-    $stmt = $conn->prepare("INSERT INTO productos (nombre, descripcion, precio, imagen, categoria_id) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssdsi", $nombre, $descripcion, $precio, $imagen, $categoria_id);
+    $stmt = $conn->prepare("INSERT INTO productos (nombre, descripcion, precio, imagen, categoria_id, stock) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssdsii", $nombre, $descripcion, $precio, $imagen, $categoria_id, $stock);
     $stmt->execute();
     $stmt->close();
 
@@ -42,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nombre'])) {
 
 // Obtener productos
 $productos = $conn->query("
-    SELECT p.id, p.nombre, p.imagen, c.nombre AS categoria, p.categoria_id 
+    SELECT p.id, p.nombre, p.imagen, p.stock, c.nombre AS categoria, p.categoria_id 
     FROM productos p
     JOIN categorias c ON p.categoria_id = c.id
 ");
@@ -113,6 +114,10 @@ if (isset($_GET['eliminar'])) {
             <input type="number" step="0.01" name="precio" class="form-input" required>
         </div>
         <div class="form-group">
+            <label class="form-label">Stock:</label>
+            <input type="number" min="0" name="stock" class="form-input" value="0" required>
+        </div>
+        <div class="form-group">
             <label class="form-label">Imagen:</label>
             <input type="file" name="imagen" class="form-input" accept="image/*">
         </div>
@@ -148,6 +153,11 @@ if (isset($_GET['eliminar'])) {
                 <div class="producto-info">
                     <strong><?= htmlspecialchars($prod['nombre']) ?></strong>
                     <span class="producto-categoria"> | Categoría: <?= htmlspecialchars($prod['categoria']) ?></span>
+                    <span class="producto-stock"> | En stock: 
+                        <span class="stock-<?= $prod['stock'] > 0 ? 'disponible' : 'agotado' ?>">
+                            <?= $prod['stock'] > 0 ? $prod['stock'] . '' : 'Agotado' ?>
+                        </span>
+                    </span>
                 </div>
                 <div class="product-actions">
                     <a href="#" class="btn btn-warning btn-small" title="Editar"
@@ -177,6 +187,10 @@ if (isset($_GET['eliminar'])) {
       <div class="form-group">
         <label>Precio:</label>
         <input type="number" step="0.01" name="precio" id="edit-precio" class="form-input" required>
+      </div>
+      <div class="form-group">
+        <label>Stock:</label>
+        <input type="number" min="0" name="stock" id="edit-stock" class="form-input" required>
       </div>
       <div class="form-group">
         <label>Imagen:</label>
@@ -214,6 +228,7 @@ function abrirModalEditar(id) {
             document.getElementById('edit-nombre').value = prod.nombre;
             document.getElementById('edit-descripcion').value = prod.descripcion;
             document.getElementById('edit-precio').value = prod.precio;
+            document.getElementById('edit-stock').value = prod.stock;
             document.getElementById('edit-preview').src = prod.imagen ? '../../' + prod.imagen : '';
         });
 }

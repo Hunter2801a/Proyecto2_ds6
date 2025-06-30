@@ -3,7 +3,7 @@
 include '../backend/conexion.php';
 
 $id = intval($_GET['id']);
-$stmt = $conn->prepare("SELECT id, nombre, descripcion, precio, imagen FROM productos WHERE id=?");
+$stmt = $conn->prepare("SELECT id, nombre, descripcion, precio, imagen, stock FROM productos WHERE id=?");
 $stmt->bind_param("i", $id);
 $stmt->execute();
 $result = $stmt->get_result();

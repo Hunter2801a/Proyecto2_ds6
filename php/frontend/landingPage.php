@@ -45,6 +45,15 @@
             <h3 id="modal-nombre" class="modal-producto-nombre"></h3>
             <p id="modal-descripcion" class="modal-producto-descripcion"></p>
             <div id="modal-precio" class="modal-producto-precio"></div>
+            <div id="modal-stock" class="modal-producto-stock"></div>
+            <div class="modal-producto-actions">
+                <button id="btn-agregar-carrito" class="btn-agregar-carrito" onclick="agregarAlCarrito()">
+                    Agregar al Carrito
+                </button>
+                <button class="btn-cancelar" onclick="cerrarModalProducto()">
+                    Cancelar
+                </button>
+            </div>
         </div>
     </div>
 
@@ -147,7 +156,52 @@ function mostrarDetalleProducto(prodId) {
     document.getElementById('modal-nombre').textContent = prod.nombre;
     document.getElementById('modal-descripcion').textContent = prod.descripcion;
     document.getElementById('modal-precio').textContent = `$${parseFloat(prod.precio).toFixed(2)}`;
+    
+    // Mostrar stock con estilo
+    const stockElement = document.getElementById('modal-stock');
+    const stock = parseInt(prod.stock);
+    let stockHtml = '';
+    
+    if (stock > 0) {
+        stockHtml = `<span class="stock-disponible"> En stock: ${stock} unidades</span>`;
+        document.getElementById('btn-agregar-carrito').disabled = false;
+    } else {
+        stockHtml = `<span class="stock-agotado">❌ Sin stock disponible</span>`;
+        document.getElementById('btn-agregar-carrito').disabled = true;
+    }
+    
+    stockElement.innerHTML = stockHtml;
+    
+    // Guardar ID del producto actual para el carrito
+    window.currentProductId = prodId;
+    
     document.getElementById('modalProducto').style.display = 'flex';
+}
+
+function agregarAlCarrito() {
+    // Por ahora solo mostrar una notificación
+    const prod = productosData.find(p => p.id == window.currentProductId);
+    if (!prod) return;
+    
+    // Crear notificación temporal
+    const notification = document.createElement('div');
+    notification.className = 'carrito-notification';
+    notification.innerHTML = `
+        <div class="notification-content">
+            <span class="notification-icon">✅</span>
+            <span class="notification-text">"${prod.nombre}" se agregó al carrito</span>
+        </div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Remover notificación después de 3 segundos
+    setTimeout(() => {
+        document.body.removeChild(notification);
+    }, 3000);
+    
+    // Cerrar modal
+    cerrarModalProducto();
 }
 
 function cerrarModalProducto() {

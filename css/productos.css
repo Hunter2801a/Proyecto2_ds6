@@ -253,6 +253,17 @@ select.form-input option {
     color: var(--primary-color);
     font-weight: 700;
 }
+.producto-stock {
+    font-size: 0.95rem;
+}
+.stock-disponible {
+    color: var(--success-color);
+    font-weight: 600;
+}
+.stock-agotado {
+    color: var(--danger-color);
+    font-weight: 600;
+}
 .producto-img {
     width: 60px;
     height: 60px;

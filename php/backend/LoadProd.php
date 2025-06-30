@@ -15,7 +15,8 @@ foreach ($categorias as $cat) {
             'nombre' => $prod['nombre'],
             'descripcion' => $prod['descripcion'],
             'precio' => $prod['precio'],
-            'imagen' => $prod['imagen']
+            'imagen' => $prod['imagen'],
+            'stock' => $prod['stock']
         ];
     }
     $resultado[] = [
