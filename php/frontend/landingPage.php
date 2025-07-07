@@ -57,10 +57,69 @@
         </div>
     </div>
 
+    <!-- Sistema de notificaciones -->
+    <div id="notificaciones" class="notifications-container"></div>
+
     <script>
+// ============================================
+// SISTEMA DE NOTIFICACIONES
+// ============================================
+const notifications = {
+    show: function(message, type = 'info') {
+        const container = document.getElementById('notificaciones');
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        
+        const icon = type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️';
+        notification.innerHTML = `
+            <span class="notification-icon">${icon}</span>
+            <span class="notification-message">${message}</span>
+            <button class="notification-close" onclick="this.parentElement.remove()">×</button>
+        `;
+        
+        container.appendChild(notification);
+        
+        // Auto-remover después de 5 segundos
+        setTimeout(() => {
+            if (notification.parentElement) {
+                notification.remove();
+            }
+        }, 5000);
+        
+        // Agregar animación de entrada
+        setTimeout(() => {
+            notification.classList.add('notification-show');
+        }, 10);
+    }
+};
+
+// ============================================
+// VARIABLES GLOBALES
+// ============================================
 let categoriasData = [];
 let productosData = [];
 
+// ============================================
+// FUNCIÓN PARA ACTUALIZAR CONTADOR DEL CARRITO
+// ============================================
+function actualizarContadorCarrito() {
+    fetch('../../php/backend/carrito.php?accion=obtener')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const carritoLink = document.querySelector('.carrito-link');
+                const totalItems = data.carrito.reduce((sum, item) => sum + parseInt(item.cantidad), 0);
+                carritoLink.innerHTML = `🛒 Tu Carrito (${totalItems})`;
+            }
+        })
+        .catch(error => {
+            console.error('Error al actualizar contador del carrito:', error);
+        });
+}
+
+// ============================================
+// CARGA INICIAL DE DATOS
+// ============================================
 fetch('../../php/backend/LoadProd.php')
     .then(res => res.json())
     .then(data => {
@@ -86,12 +145,23 @@ fetch('../../php/backend/LoadProd.php')
             });
         });
         renderProductos(); // Mostrar todos al inicio
+        actualizarContadorCarrito(); // Inicializar contador del carrito
+    })
+    .catch(error => {
+        console.error('Error al cargar productos:', error);
+        notifications.show('Error al cargar productos', 'error');
     });
 
+// ============================================
+// EVENT LISTENERS
+// ============================================
 document.getElementById('categoriaSelectLanding').addEventListener('change', function() {
     renderProductos(this.value);
 });
 
+// ============================================
+// FUNCIÓN PARA RENDERIZAR PRODUCTOS
+// ============================================
 function renderProductos(filtroCatId = "") {
     const cont = document.getElementById('categorias-con-productos');
     cont.innerHTML = '';
@@ -125,7 +195,9 @@ function renderProductos(filtroCatId = "") {
                 ${cat.nombre}
             </h3>
             <div class="productos-list-landing">
-        `;        cat.productos.forEach(prod => {
+        `;
+        
+        cat.productos.forEach(prod => {
             catHtml += `
             <div class="producto-card-landing" onclick="mostrarDetalleProducto(${prod.id})">
                 ${prod.imagen ? `<img src="../../${prod.imagen}" alt="${prod.nombre}" class="producto-img-landing">` : ''}
@@ -140,17 +212,15 @@ function renderProductos(filtroCatId = "") {
     });
 }
 
+// ============================================
+// FUNCIÓN PARA MOSTRAR DETALLE DEL PRODUCTO
+// ============================================
 function mostrarDetalleProducto(prodId) {
-    console.log('Intentando mostrar producto con ID:', prodId);
-    console.log('Array de productos:', productosData);
-    
     const prod = productosData.find(p => p.id == prodId);
     if (!prod) {
-        console.log('Producto no encontrado con ID:', prodId);
+        notifications.show('Producto no encontrado', 'error');
         return;
     }
-    
-    console.log('Producto encontrado:', prod);
     
     document.getElementById('modal-img').src = `../../${prod.imagen}`;
     document.getElementById('modal-nombre').textContent = prod.nombre;
@@ -160,17 +230,17 @@ function mostrarDetalleProducto(prodId) {
     // Mostrar stock con estilo
     const stockElement = document.getElementById('modal-stock');
     const stock = parseInt(prod.stock);
-    let stockHtml = '';
+    const btnAgregar = document.getElementById('btn-agregar-carrito');
     
     if (stock > 0) {
-        stockHtml = `<span class="stock-disponible"> En stock: ${stock} unidades</span>`;
-        document.getElementById('btn-agregar-carrito').disabled = false;
+        stockElement.innerHTML = `<span class="stock-disponible">📦 En stock: ${stock} unidades</span>`;
+        btnAgregar.disabled = false;
+        btnAgregar.style.opacity = '1';
     } else {
-        stockHtml = `<span class="stock-agotado">❌ Sin stock disponible</span>`;
-        document.getElementById('btn-agregar-carrito').disabled = true;
+        stockElement.innerHTML = `<span class="stock-agotado">❌ Sin stock disponible</span>`;
+        btnAgregar.disabled = true;
+        btnAgregar.style.opacity = '0.5';
     }
-    
-    stockElement.innerHTML = stockHtml;
     
     // Guardar ID del producto actual para el carrito
     window.currentProductId = prodId;
@@ -178,32 +248,66 @@ function mostrarDetalleProducto(prodId) {
     document.getElementById('modalProducto').style.display = 'flex';
 }
 
+// ============================================
+// FUNCIÓN PARA AGREGAR AL CARRITO
+// ============================================
 function agregarAlCarrito() {
-    // Por ahora solo mostrar una notificación
+    // Obtener el producto actual
     const prod = productosData.find(p => p.id == window.currentProductId);
-    if (!prod) return;
+    if (!prod) {
+        notifications.show('Error: Producto no encontrado', 'error');
+        return;
+    }
     
-    // Crear notificación temporal
-    const notification = document.createElement('div');
-    notification.className = 'carrito-notification';
-    notification.innerHTML = `
-        <div class="notification-content">
-            <span class="notification-icon">✅</span>
-            <span class="notification-text">"${prod.nombre}" se agregó al carrito</span>
-        </div>
-    `;
+    // Verificar stock
+    if (prod.stock <= 0) {
+        notifications.show('Producto sin stock disponible', 'error');
+        return;
+    }
     
-    document.body.appendChild(notification);
+    // Preparar datos para enviar
+    const formData = new FormData();
+    formData.append('accion', 'agregar');
+    formData.append('producto_id', prod.id);
+    formData.append('cantidad', 1);
     
-    // Remover notificación después de 3 segundos
-    setTimeout(() => {
-        document.body.removeChild(notification);
-    }, 3000);
+    // Mostrar indicador de carga
+    const btnAgregar = document.getElementById('btn-agregar-carrito');
+    const textoOriginal = btnAgregar.innerHTML;
+    btnAgregar.innerHTML = '⏳ Agregando...';
+    btnAgregar.disabled = true;
     
-    // Cerrar modal
-    cerrarModalProducto();
+    fetch('../../php/backend/carrito.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            notifications.show(`${prod.nombre} agregado al carrito`, 'success');
+            actualizarContadorCarrito();
+            cerrarModalProducto();
+            
+            // Actualizar stock en memoria para reflejar el cambio
+            prod.stock -= 1;
+        } else {
+            notifications.show(data.message || 'Error al agregar al carrito', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        notifications.show('Error de conexión al agregar al carrito', 'error');
+    })
+    .finally(() => {
+        // Restaurar botón
+        btnAgregar.innerHTML = textoOriginal;
+        btnAgregar.disabled = false;
+    });
 }
 
+// ============================================
+// FUNCIONES DEL MODAL
+// ============================================
 function cerrarModalProducto() {
     document.getElementById('modalProducto').style.display = 'none';
 }
@@ -221,6 +325,13 @@ document.addEventListener('keydown', function(e) {
         cerrarModalProducto();
     }
 });
-</script>
+
+// ============================================
+// INICIALIZACIÓN
+// ============================================
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('✅ Landing page cargada correctamente');
+});
+    </script>
 </body>
 </html>
